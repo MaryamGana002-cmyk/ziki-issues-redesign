@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Issues — Ziki</title>
+<style>
+  :root {
+    --bg: #0b1021;
+    --bg-card: #111827;
+    --bg-card-hover: #1f2937;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --border: #1f2937;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background-color: var(--bg); color: var(--text-primary); line-height: 1.5; }
+  .skip-link { position: absolute; top: -40px; left: 0; background: var(--accent); color: white; padding: 8px 16px; text-decoration: none; z-index: 100; border-radius: 4px; font-weight: 600; }
+  .skip-link:focus { top: 0; }
+  .top-bar { background: #1e1b4b; color: var(--text-secondary); font-size: 12px; padding: 6px 20px; display: flex; align-items: center; justify-content: space-between; }
+  header { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+  .header-inner { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+  .logo-text { font-weight: 700; font-size: 18px; letter-spacing: -0.5px; color: var(--text-primary); }
+  .logo-separator { color: var(--text-muted); font-size: 18px; font-weight: 400; }
+  .logo-org { font-weight: 500; font-size: 14px; color: var(--text-secondary); }
+  .logo-org-arrow { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+  .nav-tabs { display: flex; gap: 24px; align-items: center; }
+  .nav-tab { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; padding: 6px 0; border-bottom: 2px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-tab:hover { color: var(--text-primary); }
+  .nav-tab.active { color: var(--text-primary); border-bottom-color: var(--accent); background: rgba(59, 130, 246, 0.1); padding: 6px 12px; border-radius: 6px; }
+  .nav-icon { font-size: 14px; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .agents-dropdown { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; color: var(--text-secondary); font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .agents-dropdown:hover { border-color: var(--accent); color: var(--text-primary); }
+  .agents-icon { width: 16px; height: 16px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: white; }
+  .user-profile { display: flex; align-items: center; gap: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; cursor: pointer; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: #374151; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; overflow: hidden; }
+  .user-name { font-size: 14px; color: var(--text-secondary); max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .points-badge { background: #78350f; color: #fcd34d; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #b45309; }
+  .notification-icon { width: 36px; height: 36px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 14px; margin-bottom: 16px; }
+  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .toolbar-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
+  .platform-select { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); padding: 6px 12px; border-radius: 6px; font-size: 13px; margin-left: auto; cursor: pointer; }
+  .status-tabs { display: flex; gap: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 4px; margin-bottom: 24px; overflow-x: auto; }
+  .status-tab { padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; white-space: nowrap; border: 1px solid transparent; }
+  .status-tab.active { background: var(--accent); color: white; box-shadow: var(--shadow); }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .inbox-header { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .inbox-badge { display: flex; align-items: center; gap: 6px; background: var(--accent); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+  .inbox-title { flex: 1; font-size: 14px; color: var(--text-secondary); }
+  .inbox-body { padding: 20px; }
+  .inbox-explanation { display: flex; gap: 12px; margin-bottom: 16px; }
+  .inbox-icon { width: 36px; height: 36px; background: #1e293b; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
+  .explanation-text h3 { font-size: 16px; color: var(--text-primary); margin-bottom: 4px; font-weight: 600; }
+  .explanation-text p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  .agent-card-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .agent-section-title { font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .agent-actions { display: flex; gap: 8px; }
+  .agent-icon-btn { width: 32px; height: 32px; border: 1px solid var(--border); background: transparent; border-radius: 6px; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .agent-profile { display: flex; align-items: center; gap: 12px; padding: 16px 20px; }
+  .agent-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; flex-shrink: 0; }
+  .agent-info { flex: 1; min-width: 0; }
+  .agent-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .agent-name { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .agent-status-chip { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: #374151; color: var(--text-secondary); }
+  .agent-status-chip.offline { color: var(--text-muted); }
+  .agent-status-chip.online { background: #064e3b; color: #86efac; }
+  .agent-meta { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+  .agent-activity { font-size: 13px; color: var(--text-muted); }
+  .agent-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
+  .progress-dots { display: flex; gap: 4px; justify-content: center; margin-bottom: 12px; }
+  .progress-dot { width: 6px; height: 6px; border-radius: 50%; background: #374151; }
+  .progress-dot.active { background: var(--accent); }
+  .progress-label { font-size: 12px; color: var(--text-muted); text-align: center; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="top-bar"><span>Google Chrome isn't your default browser</span><button onclick="alert('Demo prototype')">Set as default</button><button onclick="this.parentElement.style.display='none'">✕</button></div>
+<header><div class="header-inner"><a href="#" class="logo" aria-label="Ziki home"><div class="logo-icon" aria-hidden="true">⚡</div><div class="logo-text">ziki</div><div class="logo-separator" aria-hidden="true">|</div><div class="logo-org">Ziki <span class="logo-org-arrow">▾</span></div></a><nav class="nav-tabs"><a class="nav-tab active" aria-current="page"><span class="nav-icon" aria-hidden="true">◐</span> Product</a><a class="nav-tab"><span class="nav-icon" aria-hidden="true">🔊</span> Marketing</a><a class="nav-tab"><span class="nav-icon" aria-hidden="true">🛡️</span> Security</a></nav><div class="header-right"><div class="agents-dropdown" role="button" tabindex="0" aria-label="Agents menu"><div class="agents-icon" aria-hidden="true">📋</div>Agents <span style="font-size:10px">▾</span></div><div class="user-profile" role="button" tabindex="0" aria-label="User profile"><div class="avatar" aria-hidden="true">👤</div><div class="user-name">Maryam Gana Mohamm… <span style="font-size:10px">▾</span></div></div><div class="points-badge" aria-label="4720 points"><span aria-hidden="true">🏆</span> 4720 pts</div><div class="notification-icon" role="button" tabindex="0" aria-label="Notifications">🔔</div></div></div></header>
+<main id="main-content"><div class="container"><nav class="breadcrumb"><a href="#">Ziki</a> <span>&rsaquo;</span> <span>Issues</span></nav>
+<div class="toolbar"><button class="toolbar-btn">🔍</button><button class="toolbar-btn">🔽</button><button class="toolbar-btn">↕</button><button class="toolbar-btn">+</button><select class="platform-select"><option>Platform: All</option></select></div>
+<div class="status-tabs" role="tablist" aria-label="Issue status filters">
+  <button class="status-tab active inbox" role="tab" aria-selected="true">Inbox <span>0</span></button>
+  <button class="status-tab open" role="tab">Open <span>110</span></button>
+  <button class="status-tab inprogress" role="tab">In progress <span>38</span></button>
+  <button class="status-tab done" role="tab">Done <span>109</span></button>
+  <button class="status-tab ready" role="tab">Ready to Merge <span>0</span></button>
+  <button class="status-tab automerge" role="tab">Auto Merge <span>7</span></button>
+  <button class="status-tab all" role="tab">All <span>264</span></button>
+</div>
+<div class="demo-notice" role="status"><span>🔧</span><strong>Demo prototype:</strong> Frontend demonstration. Agent activation is simulated.</div>
+<!-- NEW: Agent Status & Your Attention Section -->
+<section class="agent-attention-section" aria-labelledby="attention-heading">
+  <div class="attention-header">
+    <h2 id="attention-heading" class="attention-title"><span class="attention-icon">⚡</span>Agent status &amp; your attention</h2>
+    <div class="attention-summary" id="attention-summary"><span><strong>0</strong> items need your input</span><span><strong>0</strong> agents active</span></div>
+  </div>
+  <div class="attention-body">
+    <div class="agent-status-row" id="agent-status-row">
+      <div class="status-indicator offline" id="status-indicator" aria-label="Agent status: not started">○</div>
+      <div class="status-content">
+        <div class="status-main" id="status-main">No agent is working yet</div>
+        <div class="status-sub" id="status-sub">Contributor Alpha is ready to help. Start the agent to begin working on issues.</div>
+      </div>
+      <div class="status-actions">
+        <button class="btn-primary" id="btn-activate-agent">Start working with agent</button>
+      </div>
+    </div>
+    <div class="attention-tabs" role="tablist" aria-label="Attention categories">
+      <button class="attention-tab active" role="tab" aria-selected="true">Need your input <span class="count">0</span></button>
+      <button class="attention-tab" role="tab">Design feedback needed <span class="count">0</span></button>
+      <button class="attention-tab" role="tab">New ideas <span class="count">2</span></button>
+    </div>
+    <div class="attention-items" id="attention-items"></div>
+  </div>
+</section>
+<div class="content-grid">
+  <div class="card">
+    <div class="inbox-header"><div class="inbox-badge">📥 Inbox <span>0</span></div><div class="inbox-title">How the Inbox works</div></div>
+    <div class="inbox-body">
+      <div class="inbox-explanation"><div class="inbox-icon">📥</div><div class="explanation-text"><h3>How the Inbox works</h3><p>Agents work through issues on their own and stop here when they need a person: to answer a question, give feedback on a design, or weigh in on a new idea.</p></div></div>
+      <div class="empty-state" id="inbox-empty-state"><div class="empty-icon">📭</div><div class="empty-title">Nothing here right now.</div><div class="empty-desc">No agent is waiting on an answer.</div><div class="empty-actions"><button class="btn-outline" onclick="clearFilters()">Clear filters</button></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="agent-card-header"><span class="agent-section-title">Your agents</span><div class="agent-actions"><button class="agent-icon-btn" aria-label="View all agents">👥</button><button class="agent-icon-btn" aria-label="Agent settings" onclick="toggleAgentSettings()">⚙</button></div></div>
+    <div class="agent-profile"><div class="agent-avatar">🤖</div><div class="agent-info"><div class="agent-name-row"><span class="agent-name">Contributor Alpha</span><span class="agent-status-chip offline" id="agent-status-chip">Offline</span></div><div class="agent-meta" id="agent-meta">No recent activity</div><div class="agent-activity">Nothing done in the last 30 days</div></div></div>
+    <div class="agent-progress"><div class="progress-dots" id="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div><div class="progress-label">No recent activity</div></div>
+  </div>
+</div>
+<div id="agent-settings-panel" class="hidden" style="grid-column: 1 / -1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+  <h3 style="margin-bottom: 12px; font-size: 15px; color: var(--text-primary);">Agent settings — Contributor Alpha</h3>
+  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Configure how this agent interacts with you.</p>
+  <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-secondary); cursor: pointer; margin-bottom: 12px;"><input type="checkbox" checked> Notify me when agent needs input</label>
+  <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-secondary); cursor: pointer; margin-bottom: 12px;"><input type="checkbox" checked> Auto-approve safe, reversible actions</label>
+  <button class="btn-outline" onclick="toggleAgentSettings()" style="width: 100%; justify-content: center;">Close settings</button>
+</div>
+</div></main>
+<style>
+  .agent-attention-section { grid-column: 1 / -1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+  .attention-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); background: #0f172a; }
+  .attention-title { font-size: 14px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+  .attention-icon { width: 18px; height: 18px; background: var(--accent); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; }
+  .attention-summary { display: flex; gap: 16px; font-size: 12px; color: var(--text-secondary); }
+  .attention-summary-item { display: flex; align-items: center; gap: 6px; }
+  .attention-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .agent-status-row { display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--bg-card-hover); border-radius: 8px; border: 1px solid var(--border); }
+  .status-indicator { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .status-indicator.offline { background: rgba(107, 114, 128, 0.15); color: var(--text-muted); border: 2px solid #4b5563; }
+  .status-indicator.online { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 2px solid var(--success); }
+  .status-indicator.working { background: rgba(59, 130, 246, 0.15); color: var(--accent); border: 2px solid var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+  .status-content { flex: 1; min-width: 0; }
+  .status-main { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+  .status-sub { font-size: 13px; color: var(--text-secondary); }
+  .status-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn-primary { background: var(--accent); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 10px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-outline:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .attention-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .attention-item { border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: var(--bg-card); transition: all 0.2s; display: flex; flex-direction: column; gap: 10px; }
+  .attention-item:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+  .attention-item:focus-within { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: -2px; }
+  .attention-item-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .attention-item-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .attention-item-count { font-size: 12px; font-weight: 700; color: var(--accent); background: rgba(59, 130, 246, 0.1); padding: 2px 8px; border-radius: 10px; }
+  .attention-item-count.zero { color: var(--text-muted); background: transparent; }
+  .attention-item-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+  .attention-item-actions { display: flex; gap: 8px; margin-top: 4px; }
+  .attention-item-btn { flex: 1; background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: left; }
+  .attention-item-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59, 130, 246, 0.05); }
+  .attention-item-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .attention-item-btn.primary:hover { background: var(--accent-hover); }
+  .empty-state { grid-column: 1 / -1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 48px 24px; text-align: center; }
+  .empty-icon { width: 64px; height: 64px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--text-muted); font-size: 28px; }
+  .empty-title { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+  .empty-desc { font-size: 15px; color: var(--text-secondary); margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .empty-actions { display: flex; gap: 12px; justify-content: center; }
+  .attention-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; overflow-x: auto; }
+  .attention-tab { padding: 12px 20px; font-size: 13px; font-weight: 500; color: var(--text-secondary); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .attention-tab:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+  .attention-tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(59, 130, 246, 0.05); }
+  .hidden { display: none !important; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .demo-notice { background: rgba(59, 130, 246, 0.1); border: 1px solid var(--accent); border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  @media (max-width: 640px) { .container { padding: 16px 16px; } .status-tabs { padding: 4px 8px; } .status-tab { padding: 6px 10px; font-size: 12px; } .content-grid { grid-template-columns: 1fr; } .agent-status-row { flex-direction: column; align-items: flex-start; gap: 12px; } .status-actions { width: 100%; justify-content: space-between; } .btn-primary { width: 100%; justify-content: center; } .attention-items { grid-template-columns: 1fr; } .toolbar { justify-content: center; } .platform-select { margin-left: 0; width: 100%; margin-top: 10px; } }
+</style>
+<script>
+  const state = { agentOnline: false, agentName: 'Contributor Alpha', attentionCounts: { 'need-input': 0, 'design-feedback': 0, 'new-ideas': 2 }, settingsOpen: false };
+  const elSI = document.getElementById('status-indicator'), elSM = document.getElementById('status-main'), elSS = document.getElementById('status-sub');
+  const elAB = document.getElementById('btn-activate-agent'), elAC = document.getElementById('agent-status-chip'), elAM = document.getElementById('agent-meta');
+  const elAI = document.getElementById('attention-items'), elAT = document.querySelectorAll('.attention-tab');
+  const elES = document.getElementById('inbox-empty-state'), elET = elES.querySelector('.empty-title'), elED = elES.querySelector('.empty-desc'), elEA = elES.querySelector('.empty-actions');
+  const elSP = document.getElementById('agent-settings-panel'), elPD = document.getElementById('progress-dots'), elPL = document.querySelector('.progress-label');
+  const elAS = document.getElementById('attention-summary');
+  function renderAgentStatus() { if (state.agentOnline) { elSI.className = 'status-indicator working'; elSI.setAttribute('aria-label','Agent status: working'); elSI.textContent = '●'; elSM.textContent = 'Agent is working'; elSS.textContent = state.agentName + ' · Fixing issue #400 (auth timeout)'; elAB.textContent = 'Stop agent'; elAB.className = 'btn-outline'; elAB.onclick = toggleAgent; elAC.className = 'agent-status-chip online'; elAC.textContent = 'Working'; elAM.textContent = 'Fixing issue #400 · Est. 30 min'; elPD.innerHTML = '<div class="progress-dot active"></div><div class="progress-dot active"></div><div class="progress-dot"></div><div class="progress-dot"></div>'; elPL.textContent = 'Investigating · 2 of 4 steps complete'; } else { elSI.className = 'status-indicator offline'; elSI.setAttribute('aria-label','Agent status: not started'); elSI.textContent = '○'; elSM.textContent = 'No agent is working yet'; elSS.textContent = 'Contributor Alpha is ready to help. Start the agent to begin working on issues.'; elAB.textContent = 'Start working with agent'; elAB.className = 'btn-primary'; elAB.onclick = toggleAgent; elAC.className = 'agent-status-chip offline'; elAC.textContent = 'Not started'; elAM.textContent = 'No recent activity'; elPD.innerHTML = '<div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div>'; elPL.textContent = 'No recent activity'; } }
+  function renderAttentionItems() { const active = document.querySelector('.attention-tab.active'); const cat = active.textContent.toLowerCase(); elAI.innerHTML = ''; const items = []; if (cat.includes('need your input') && state.attentionCounts['need-input'] > 0) { items.push({ title: 'Approval needed', count: state.attentionCounts['need-input'], desc: 'Agent wants to bid on issue #104. Review the plan before it bids.', actions: [{ label: 'Review plan', primary: true }, { label: 'Decline', primary: false }] }); } if (cat.includes('design feedback') && state.attentionCounts['design-feedback'] > 0) { items.push({ title: 'Design feedback needed', count: state.attentionCounts['design-feedback'], desc: 'Agent needs your input on the proposed UI for the checkout flow.', actions: [{ label: 'Give feedback', primary: true }, { label: 'Skip', primary: false }] }); } if (cat.includes('new ideas') && state.attentionCounts['new-ideas'] > 0) { items.push({ title: 'New idea: Add dark mode', count: state.attentionCounts['new-ideas'], desc: 'Agent detected a recurring request for dark mode. Should it create an issue?', actions: [{ label: 'Create issue', primary: true }, { label: 'Dismiss', primary: false }] }); } if (items.length === 0) { elAI.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 32px; color: var(--text-secondary);">Nothing needs your attention right now.</div>'; return; } items.forEach((item, idx) => { const el = document.createElement('div'); el.className = 'attention-item'; el.tabIndex = 0; el.setAttribute('role','button'); el.setAttribute('aria-label', item.title + '. ' + item.count + ' item' + (item.count !== 1 ? 's' : '') + '. ' + item.desc); el.innerHTML = '<div class="attention-item-header"><span class="attention-item-title">' + item.title + '</span><span class="attention-item-count">' + item.count + '</span></div><div class="attention-item-desc">' + item.desc + '</div><div class="attention-item-actions">' + item.actions.map(a => '<button class="attention-item-btn ' + (a.primary ? 'primary' : '') + '" data-action="' + a.label.toLowerCase() + '" data-index="' + idx + '">' + a.label + '</button>').join('') + '</div>'; elAI.appendChild(el); }); elAI.querySelectorAll('.attention-item-btn').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); const idx = parseInt(btn.dataset.index); const action = btn.dataset.action; handleAttentionAction(items[idx], action); }); }); }
+  function handleAttentionAction(item, action) { showToast(action.charAt(0).toUpperCase() + action.slice(1) + ': ' + item.title); const t = item.title.toLowerCase(); if (t.includes('approval')) state.attentionCounts['need-input'] = Math.max(0, state.attentionCounts['need-input'] - 1); else if (t.includes('design')) state.attentionCounts['design-feedback'] = Math.max(0, state.attentionCounts['design-feedback'] - 1); else if (t.includes('idea')) state.attentionCounts['new-ideas'] = Math.max(0, state.attentionCounts['new-ideas'] - 1); renderAttentionItems(); renderAttentionSummary(); renderEmptyState(); updateTabCounts(); }
+  function renderAttentionSummary() { const total = state.attentionCounts['need-input'] + state.attentionCounts['design-feedback']; elAS.innerHTML = '<span><strong>' + total + '</strong> items need your input</span><span><strong>' + (state.agentOnline ? 1 : 0) + '</strong> agent' + (state.agentOnline !== 1 ? 's' : '') + ' active</span>'; }
+  function renderEmptyState() { const total = Object.values(state.attentionCounts).reduce((a,b) => a + b, 0); if (state.agentOnline) { elET.textContent = 'Agent is working'; elED.textContent = state.agentName + ' is investigating issue #400. Check back in a few minutes, or view open issues.'; elEA.innerHTML = '<button class="btn-outline" onclick="viewOpenIssues()">View open issues</button><button class="btn-outline" onclick="toggleAgent()">Stop agent</button>'; } else if (total > 0) { elET.textContent = 'Items need your attention'; elED.textContent = 'There are ' + total + ' item' + (total !== 1 ? 's' : '') + ' waiting for your input. Switch to the "Need your input" tab to see them.'; elEA.innerHTML = '<button class="btn-outline" onclick="switchTab(\'need-input\')">View pending items</button><button class="btn-outline" onclick="toggleAgent()">Start working with agent</button>'; } else { elET.textContent = 'Nothing here right now.'; elED.textContent = 'No agent is waiting on an answer.'; elEA.innerHTML = '<button class="btn-outline" onclick="clearFilters()">Clear filters</button><button class="btn-outline" onclick="toggleAgent()">Start working with agent</button>'; } }
+  function toggleAgent() { state.agentOnline = !state.agentOnline; renderAgentStatus(); renderEmptyState(); showToast(state.agentOnline ? 'Agent activated. ' + state.agentName + ' is now online.' : 'Agent paused.'); if (state.agentOnline) { setTimeout(() => { elSS.textContent = state.agentName + ' · Scanning for issues...'; }, 1500); } }
+  function toggleAgentSettings() { state.settingsOpen = !state.settingsOpen; elSP.classList.toggle('hidden', !state.settingsOpen); }
+  function clearFilters() { showToast('Filters cleared'); }
+  function viewOpenIssues() { showToast('Opening Open issues tab...'); }
+  function switchTab(name) { elAT.forEach(t => { if (t.textContent.toLowerCase().includes(name)) t.click(); }); }
+  function updateTabCounts() { elAT.forEach(tab => { const l = tab.textContent.toLowerCase(); const c = tab.querySelector('.count'); if (!c) return; if (l.includes('need your input')) c.textContent = state.attentionCounts['need-input']; else if (l.includes('design feedback')) c.textContent = state.attentionCounts['design-feedback']; else if (l.includes('new ideas')) c.textContent = state.attentionCounts['new-ideas']; }); }
+  function showToast(msg) { const old = document.querySelector('.demo-toast'); if (old) old.remove(); const t = document.createElement('div'); t.className = 'demo-toast'; t.style.cssText = 'position:fixed; top:90px; left:50%; transform:translateX(-50%); background:var(--bg-card); border:1px solid var(--border); color:var(--text-primary); padding:10px 16px; border-radius:6px; font-size:13px; z-index:100; box-shadow:var(--shadow);'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => { t.style.opacity='0'; setTimeout(() => t.remove(), 300); }, 3000); }
+  document.addEventListener('DOMContentLoaded', () => { renderAgentStatus(); renderAttentionItems(); renderAttentionSummary(); renderEmptyState(); elAT.forEach(tab => { tab.addEventListener('click', () => { elAT.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); }); tab.classList.add('active'); tab.setAttribute('aria-selected','true'); renderAttentionItems(); }); }); elAI.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const b = e.target.querySelector('.attention-item-btn.primary'); if (b) b.click(); } }); });
+</script>
+</body>
+</html>
+
+
