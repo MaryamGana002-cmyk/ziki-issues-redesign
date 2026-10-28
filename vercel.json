@@ -1,15 +1,11 @@
 {
-  "version": 2,
-  "name": "ziki-issues-redesign",
-  "framework": null,
-  "builds": [
-    { "src": "issues-prototype.html", "use": "@vercel/static" },
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "README.md", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/issues-prototype.html", "dest": "/issues-prototype.html" },
-    { "src": "/(.*)", "dest": "/issues-prototype.html" }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

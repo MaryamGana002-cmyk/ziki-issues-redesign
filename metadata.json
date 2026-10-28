@@ -1,0 +1,8 @@
+{
+  "name": "Ziki Issues",
+  "description": "Human–agent interaction redesigned Issues dashboard for Ziki with real-time agent status tracking, attention management, and workflow automation.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

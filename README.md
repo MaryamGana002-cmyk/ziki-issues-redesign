@@ -1,62 +1,66 @@
-﻿# Ziki Issues Page — HNG15 Week 5 Task 1: Human–Agent Interaction UX Improvement
+# Ziki Issues Redesign — React Application
 
-**Target Page:**
-**Product:** Ziki (ziki.dev)
-**Page:** Issues — https://ziki.dev/issues
-**Status:** Frontend prototype (original source code not available)
+**Target Product:** [Ziki](https://ziki.dev)  
+**Target Page:** Issues (`/issues`)  
+**Architecture:** React 19 + TypeScript + Vite + Tailwind CSS  
+**Focus:** Human–Agent Interaction UX Improvement (HNG15 Week 5 Task 1)
+
 ---
-## A. Problem Statement
-Before the change, the Issues page at ziki.dev/issues had three directly observed human–agent interaction problems:
-1. **Contradictory empty state.** The page displays *"Nothing here right now. No agent is waiting on an answer."* while the "New ideas" tab shows a count of **2**.
-2. **Opaque agent status.** The agent card ("Contributor Alpha") shows only *"Offline"* with no explanation of what to do next.
-3. **No clear "what needs my attention" section.** The "Need your input" tab shows 0 with no consolidated view of pending items.
+
+## Overview
+
+This project is a modern, modular React implementation of the **Ziki Issues** redesigned interface (`ziki.dev/issues`). It implements the complete **Human-to-Agent Issue Reporting and Work Delegation** UX system for HNG15 Week 5 Task 1, paired with the exact Ziki header from production and an accessible light/dark theme switch.
+
 ---
-## B. Design Decision
-The most important interaction to improve is helping the user understand what the agent is doing, what needs attention, and what to do next — at a glance.
-This addresses all three observed problems in one cohesive section because they are fundamentally the same issue: the user cannot answer "What is happening?", "What needs my attention?", or "What should I do next?"
+
+## Key Capabilities & UX Architecture
+
+### 1. Header Preservation & Light/Dark Theme Switch
+- **Header Fidelity:** Faithfully matches the exact production Ziki header layout from `ziki.dev/issues`:
+  - Electric blue custom geometric `Z` glyph and lowercase `ziki` logotype.
+  - Organization switcher dropdown (`Ziki ⌵` / `HNG Labs`).
+  - Space navigation tabs: active `⊙ Product` pill, `🔊 Marketing`, and `🛡️ Security`.
+  - Fleet launcher pill: `🤖 Agents ⌵`.
+  - User profile pill with monochrome hijab portrait avatar for `Maryam Gana Mohamm... ⌵`.
+  - Reputation points badge: `🏆 4720 pts`.
+  - Notification bell with blue `9` badge indicator.
+- **Header Constraint:** Preserves every element, dimension, positioning, font, and control from production.
+- **Light/Dark Mode Toggle:** The only addition to the header is a compact, keyboard-accessible theme toggle button (Sun/Moon icon).
+- **Default Theme:** **Light mode is the default on first visit**, rendering the entire page on a pure white background (`#ffffff`), with instant class switching and `localStorage` persistence.
+
+### 2. Human-to-Agent Issue Reporting & Work Delegation Flow
+- **Stage A — Human Reports the Problem:**
+  - Structured reporting wizard capturing issue title, problem description, expected vs. actual behavior, reproduction steps, platform, and priority.
+- **Stage B — Human Delegates the Work:**
+  - Clear delegation scope selector:
+    - *Investigate & Diagnose*
+    - *Propose a Solution*
+    - *Implement a Fix*
+    - *Review Existing Implementation*
+  - Explicit assignment to `Contributor Alpha` with option to create as an unassigned issue.
+- **Stage C — Agent Analyses & Plans:**
+  - Structured 6-step roadmap clearly marked as a simulated workflow prototype.
+- **Stage D — Agent Requests Human Input Only When Needed:**
+  - Displays context, ambiguity rationale, and selectable options with trade-off consequences.
+  - Interactive decision submission unblocks the agent and updates execution status.
+- **Stage E — Agent Executes the Task:**
+  - Live state tracking (`Queued`, `Analysing`, `Needs your input`, `Agent Working`, `In Review`, `Completed`).
+  - Interactive step advancement simulating agent progress.
+- **Stage F — Human Reviews Outcome & Signs Off:**
+  - Pull request review tab with visual code diff, file touch list, and test coverage evidence.
+  - Approve & close or request changes.
+
 ---
-## C. Before-and-After Comparison
-| Area | Before | After |
-|------|--------|-------|
-| Agent status | "Offline" — no context, no action | Clear indicator + plain-language status + "Activate agent" button |
-| Attention | "Need your input" shows 0; no consolidated view | Consolidated section with counts, titles, descriptions, action buttons |
-| Empty state | Contradicts "New ideas: 2" | Dynamic — consistent with tab counts and agent state |
-| Next action | None obvious | Obvious primary button or clear attention items |
----
-## D. User Journey
-**Step 1 — Arrive.** User lands on ziki.dev/issues. The new "Agent status & your attention" section appears at the top of the content area.
-**Step 2 — Understand.** Agent status row shows a visual indicator (○ grey offline / ● blue working), plain-language text, and supporting detail.
-**Step 3 — See attention.** Attention tabs show counts per category. Clicking reveals item cards with title, count, description, and action buttons.
-**Step 4 — Act.** "Activate agent" button when offline. Primary action buttons on attention items when items exist. Toast confirms each action.
-**Step 5 — Outcome.** Status changes to "Agent is working" with progress. Item counts decrement on resolution.
----
-## E. Validation
-| Test | Result |
-|------|--------|
-| Agent offline → "Activate agent" visible | Passed |
-| Click "Activate agent" → status changes to working | Passed |
-| Empty state consistent with tab counts | Passed |
-| Keyboard navigation: Tab reaches all elements | Passed |
-| Visible focus rings on all buttons | Passed |
-| Responsive on mobile | Passed |
-| Colour is supporting signal (icons + text) | Passed |
-Not tested: real API integration, live data, persistent state, screen reader testing.
----
-## F. Limitations
-1. Frontend prototype only — original Ziki source code was not available.
-2. Simulated agent behavior — no real API calls made.
-3. Static demo data — counts are hardcoded, not live.
-4. No backend integration — does not connect to ziki.dev API endpoints.
-5. No production deployment performed.
----
-## G. Deployment
-Not performed. The prototype is a local HTML file. To deploy, copy `issues-prototype.html` to a static hosting platform and verify interactions.
----
-## How to View the Prototype
-1. Open `issues-prototype.html` in any modern web browser
-2. Click "Activate agent" to see the agent working state
-3. Click attention tabs to see different categories
-4. Click action buttons to see count updates and toasts
----
-*Built for HNG15 Week 5 — Task 1: Human–Agent Interaction UX Improvement*
-*Product: Ziki | Page: Issues (ziki.dev/issues)*
+
+## Development & Verification
+
+```bash
+# Run development server
+npm run dev
+
+# Run type checker
+npm run lint
+
+# Compile production build
+npm run build
+```

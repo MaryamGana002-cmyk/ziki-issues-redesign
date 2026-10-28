@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="0; url=/issues-prototype.html">
-  <title>Ziki Issues — Redirecting…</title>
-  <style>
-    body { background: #0b1021; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-    .card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 24px 32px; text-align: center; }
-    .spinner { width: 32px; height: 32px; border: 3px solid #1f2937; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    h1 { font-size: 16px; margin: 0 0 8px; color: #9ca3af; }
-    a { color: #3b82f6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="spinner" aria-hidden="true"></div>
-    <h1>Loading Ziki Issues prototype…</h1>
-    <p>If you are not redirected automatically, <a href="/issues-prototype.html">click here</a>.</p>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ziki Issues</title>
+    <meta name="description" content="Human–agent interaction redesigned Issues dashboard for Ziki with real-time issue reporting, agent delegation, and workflow automation." />
+    <meta property="og:title" content="Ziki Issues" />
+    <meta property="og:description" content="Human–agent interaction redesigned Issues dashboard for Ziki with real-time issue reporting, agent delegation, and workflow automation." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('ziki-theme');
+          if (saved === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-white dark:bg-[#0b1021] text-slate-900 dark:text-[#f3f4f6] antialiased selection:bg-blue-600 selection:text-white min-h-screen transition-colors duration-150">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
